@@ -24,6 +24,9 @@ class MatrizBase {
         virtual void cargarValores() = 0;
         virtual MatrizBase<T>* sumar(const MatrizBase<T>& otra) const = 0;
         virtual void imprimir() const = 0;
+        // Métodos para suma
+        virtual T obtenerCelda(int i, int j) const = 0;
+        virtual void establecerCelda(int i, int j, T valor) = 0;
 };
 
 #endif

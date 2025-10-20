@@ -9,6 +9,18 @@ template <typename T, int M, int N>
 class MatrizEstatica : public MatrizBase<T> {
     private:
         T _datos[M][N];
+    protected:
+        T obtenerCelda(int i, int j) const override {
+            if (i < 0 || i >= M || j < 0 || j >= N) 
+                throw std::out_of_range("Indices fuera de rango");
+            return _datos[i][j];
+        }
+        
+        void establecerCelda(int i, int j, T valor) override {
+            if (i < 0 || i >= M || j < 0 || j >= N) 
+                throw std::out_of_range("Indices fuera de rango");
+            _datos[i][j] = valor;
+        }
     public:
         // Constructor de matriz estática
         MatrizEstatica() : MatrizBase<T>(M, N) {
@@ -34,15 +46,11 @@ class MatrizEstatica : public MatrizBase<T> {
                 throw std::invalid_argument("Dimensiones incompatibles para suma");
             }
 
-            const MatrizEstatica<T, M, N>* otraEstatica = dynamic_cast<const MatrizEstatica<T, M, N>*>(&otra);
-            if (!otraEstatica) {
-                throw std::invalid_argument("Tipos de matriz incompatibles");
-            }
-
             MatrizEstatica<T, M, N>* resultado = new MatrizEstatica<T, M, N>();
             for (int i = 0; i < M; ++i) {
                 for (int j = 0; j < N; ++j) {
-                    resultado->_datos[i][j] = this->_datos[i][j] + otraEstatica->_datos[i][j];
+                    T suma = this->obtenerCelda(i, j) + otra.obtenerCelda(i, j);
+                    resultado->establecerCelda(i, j, suma);
                 }
             }
             return resultado;

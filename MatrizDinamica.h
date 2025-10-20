@@ -9,6 +9,18 @@ template <typename T>
 class MatrizDinamica : public MatrizBase<T> {
 private:
     T** _datos;
+protected:
+    T obtenerCelda(int i, int j) const override {
+        if (i < 0 || i >= this->_filas || j < 0 || j >= this->_columnas) 
+            throw std::out_of_range("Indices fuera de rango");
+        return _datos[i][j];
+    }
+    
+    void establecerCelda(int i, int j, T valor) override {
+        if (i < 0 || i >= this->_filas || j < 0 || j >= this->_columnas) 
+            throw std::out_of_range("Indices fuera de rango");
+        _datos[i][j] = valor;
+    }
 public:
     // Constructor de matriz dinámica
     MatrizDinamica(int filas, int columnas) : MatrizBase<T>(filas, columnas) {
@@ -74,15 +86,11 @@ public:
             throw std::invalid_argument("Dimensiones incompatibles para suma");
         }
 
-        const MatrizDinamica<T>* otraDinamica = dynamic_cast<const MatrizDinamica<T>*>(&otra);
-        if (!otraDinamica) {
-            throw std::invalid_argument("Tipos de matriz incompatibles");
-        }
-
         MatrizDinamica<T>* resultado = new MatrizDinamica<T>(this->_filas, this->_columnas);
-        for(int i = 0; i < this->_filas; i++) {
-            for(int j = 0; j < this->_columnas; j++) {
-                resultado->_datos[i][j] = this->_datos[i][j] + otraDinamica->_datos[i][j];
+        for (int i = 0; i < this->_filas; i++) {
+            for (int j = 0; j < this->_columnas; j++) {
+                T suma = this->obtenerCelda(i, j) + otra.obtenerCelda(i, j);
+                resultado->establecerCelda(i, j, suma);
             }
         }
         return resultado;
