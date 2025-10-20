@@ -7,7 +7,6 @@ class MatrizBase {
     protected:
         int _filas;
         int _columnas;
-
     public:
         // Constructor de matriz base
         MatrizBase(int filas, int columnas) : _filas(filas), _columnas(columnas) {}

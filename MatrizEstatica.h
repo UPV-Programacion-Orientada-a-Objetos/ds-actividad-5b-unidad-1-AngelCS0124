@@ -9,8 +9,8 @@ template <typename T, int M, int N>
 class MatrizEstatica : public MatrizBase<T> {
     private:
         T _datos[M][N];
-
     public:
+        // Constructor de matriz estática
         MatrizEstatica() : MatrizBase<T>(M, N) {
             for (int i = 0; i < M; ++i) {
                 for (int j = 0; j < N; ++j) {
@@ -18,7 +18,7 @@ class MatrizEstatica : public MatrizBase<T> {
                 }
             }
         }
-
+        // Método para cargar valores en la matriz
         void cargarValores() override {
             std::cout << "Ingrese " << M << "x" << N << " valores:" << std::endl;
             for (int i = 0; i < M; ++i) {
@@ -28,7 +28,7 @@ class MatrizEstatica : public MatrizBase<T> {
                 }
             }
         }
-
+        // Método para sumar dos matrices
         MatrizBase<T>* sumar(const MatrizBase<T>& otra) const override {
             if (this->_filas != otra.getFilas() || this->_columnas != otra.getColumnas()) {
                 throw std::invalid_argument("Dimensiones incompatibles para suma");
@@ -47,7 +47,7 @@ class MatrizEstatica : public MatrizBase<T> {
             }
             return resultado;
         }
-
+        // Método para imprimir la matriz
         void imprimir() const override {
             for (int i = 0; i < M; ++i) {
                 std::cout << "| ";
